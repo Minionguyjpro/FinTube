@@ -135,13 +135,14 @@
 							document.getElementById('fintube-result').innerHTML = "";
 
 							let payload = {
-								"ytid": 		parseYT(getfintubeValue("ytid")),
-								"targetfolder": getfintubeValue("targetfolder"),
-								"audioonly": 	document.getElementById("fintube-audioonly").checked,
-								"artist": 		getfintubeValue("artist"),
-								"album": 		getfintubeValue("album"),
-								"title": 		getfintubeValue("title"),
-								"track":		Number(getfintubeValue("track"))
+								"ytid": 				parseYT(getfintubeValue("ytid")),
+								"targetfolder": 		getfintubeValue("targetfolder"),
+								"audioonly": 			document.getElementById("fintube-audioonly").checked,
+								"preferfreeformat": 	document.getElementById("fintube-preferfreeformat").checked,
+								"artist": 				getfintubeValue("artist"),
+								"album": 				getfintubeValue("album"),
+								"title": 				getfintubeValue("title"),
+								"track":				Number(getfintubeValue("track"))
 							}
 						
 
