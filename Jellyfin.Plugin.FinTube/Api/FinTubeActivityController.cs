@@ -62,7 +62,7 @@ public class FinTubeActivityController : ControllerBase
         {
             try
             {
-                _logger.LogInformation("FinTubeDownload : {ytid} to {targetfoldeer} audio only: {audioonly}", data.ytid, data.targetfolder, data.audioonly);
+                _logger.LogInformation("FinTubeDownload : {ytid} to {targetfoldeer}, prefer free format: {preferfreeformat} audio only: {audioonly}", data.ytid, data.targetfolder, data.preferfreeformat, data.audioonly);
 
                 Dictionary<string, object> response = new Dictionary<string, object>();
                 PluginConfiguration? config = Plugin.Instance.Configuration;
@@ -85,7 +85,7 @@ public class FinTubeActivityController : ControllerBase
 
                 // Save file with ytdlp as mp4 or mp3 depending on audioonly
                 String targetFilename;
-                String targetExtension = (data.preferfreeformat ? (data.audioonly ? @".mp3" : @".mp4") : (data.audioonly ? @".opus" : @".webm"));
+                String targetExtension = (data.preferfreeformat ? (data.audioonly ? @".opus" : @".webm") : (data.audioonly ? @".mp3" : @".mp4"));
                 
                 if(data.audioonly && hasTags && data.title.Length > 1) // Use title Tag for filename
                     targetFilename = System.IO.Path.Combine(data.targetfolder, $"{data.title}");
@@ -99,7 +99,7 @@ public class FinTubeActivityController : ControllerBase
                 status += $"Filename: {targetFilename}<br>";
 
                 String args;
-                if (data.preferfreeformat)
+                if(data.preferfreeformat)
                     if(data.audioonly)
                         args = $"-x --prefer-free-format -o \"{targetFilename}.%(ext)s\" {data.ytid}";
                     else
