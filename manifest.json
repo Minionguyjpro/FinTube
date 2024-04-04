@@ -12,7 +12,7 @@
                 "version": "1.0.1.1",
                 "changelog": "Initial Release",
                 "targetAbi": "10.8.10.0",
-                "sourceUrl": "https://github.com/vincentroyc/FinTube/releases/download/pre-release-free-format/Jellyfin.Plugin.FinTube.dll",
+                "sourceUrl": "https://github.com/vincentroyc/FinTube/releases/download/release%2F1.0.1.1/Jellyfin.Plugin.FinTube.zip",
                 "checksum": "2dea1a11e1a98c3d80a399dc1e00d9ce",
                 "timestamp": "2024-04-03T23:46:00Z"
             },
