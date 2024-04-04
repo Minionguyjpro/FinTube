@@ -37,6 +37,20 @@
 						<div class="fieldDescription">Check this if you want to store as mp3, otherwise the file is saved in mp4</div>
 					</div>
 
+					<div id="fintube-videosettings" hidden>
+						<div class="selectContainer">
+							<label class="inputLabel" for="fintube-videoresolution">Video resolution</label>
+							<select id="fintube-videoresolution" class="emby-input" name="fintube-videoresolution">
+								<option value="">default</option>
+								<option value="720">720p</option>
+								<option value="1080" selected>1080p</option>
+								<option value="1440">2k</option>
+								<option value="2160">4k</option>
+							</select>
+							<div class="fieldDescription">Maximum desired resolution if available. Set to default if you want to download the best available.</div>
+						</div>
+					</div>
+
 					<div id="fintube-audiosettings" hidden>						
 						<h3>Audio Settings (Require id3v2 to be configured properly)</h3>
 						
@@ -126,6 +140,7 @@
 					document.getElementById('fintube-audioonly')
 						.addEventListener("change", function() {
 							document.getElementById('fintube-audiosettings').hidden = !this.checked;
+							document.getElementById('fintube-videosettings').hidden = this.checked;
 						});
 
 					document.querySelector('#FinTubeDLForm')
@@ -137,6 +152,7 @@
 							let payload = {
 								"ytid": 				parseYT(getfintubeValue("ytid")),
 								"targetfolder": 		getfintubeValue("targetfolder"),
+								"videoresolution":		getfintubeValue("videoresolution"),
 								"audioonly": 			document.getElementById("fintube-audioonly").checked,
 								"preferfreeformat": 	document.getElementById("fintube-preferfreeformat").checked,
 								"artist": 				getfintubeValue("artist"),

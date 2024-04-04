@@ -49,6 +49,7 @@ public class FinTubeActivityController : ControllerBase
             public string targetfolder{get; set;} = "/tmp";
             public bool audioonly{get; set;} = false;
             public bool preferfreeformat{get; set;} = false;
+            public string videoresolution{get; set;} = "";
             public string artist{get; set;} = "";
             public string album{get; set;} = "";
             public string title{get; set;} = "";
@@ -99,16 +100,25 @@ public class FinTubeActivityController : ControllerBase
                 status += $"Filename: {targetFilename}<br>";
 
                 String args;
-                if(data.preferfreeformat)
-                    if(data.audioonly)
-                        args = $"-x --prefer-free-format -o \"{targetFilename}.%(ext)s\" {data.ytid}";
+                if(data.audioonly)
+                {
+                    args = "-x";
+                    if(data.preferfreeformat)
+                        args += " --prefer-free-format";
                     else
-                        args = $"--prefer-free-format -o \"{targetFilename}-%(title)s.%(ext)s\" {data.ytid}";
+                        args += " --audio-format mp3";
+                    args += " -o \"{targetFilename}.%(ext)s\" {data.ytid}";
+                }
                 else
-                    if(data.audioonly)
-                        args = $"-x --audio-format mp3 -o \"{targetFilename}.%(ext)s\" {data.ytid}";
+                {
+                    if(data.preferfreeformat)
+                        args = "--prefer-free-format";
                     else
-                        args = $"-f mp4 -o \"{targetFilename}-%(title)s.%(ext)s\" {data.ytid}";
+                        args = "-f mp4";
+                    if(!string.IsNullOrEmpty(data.videoresolution))
+                        args += " -S res:{data.videoresolution}";
+                    args += " -o \"{targetFilename}-%(title)s.%(ext)s\" {data.ytid}";
+                }
 
                 status += $"Exec: {config.exec_YTDL} {args}<br>";
 
