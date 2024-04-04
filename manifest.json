@@ -9,6 +9,14 @@
         "imageUrl": "https://raw.githubusercontent.com/AECX/FinTube/master/Assets/logo.png",
         "versions": [
             {
+                "version": "1.0.1.0",
+                "changelog": "Initial Release",
+                "targetAbi": "10.8.10.0",
+                "sourceUrl": "https://github.com/vincentroyc/FinTube/archive/refs/heads/feature/prefer-free-format-option.zip",
+                "checksum": "0ee104b7e55b895a4de7124243750c9a",
+                "timestamp": "2024-04-03T23:46:00Z"
+            },
+            {
                 "version": "1.0.0.0",
                 "changelog": "Initial Release",
                 "targetAbi": "10.8.10.0",

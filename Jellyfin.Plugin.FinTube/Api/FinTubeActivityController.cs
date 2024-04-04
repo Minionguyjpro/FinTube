@@ -48,6 +48,7 @@ public class FinTubeActivityController : ControllerBase
             public string ytid {get; set;} = "";
             public string targetfolder{get; set;} = "/tmp";
             public bool audioonly{get; set;} = false;
+            public bool preferfreeformat{get; set;} = false;
             public string artist{get; set;} = "";
             public string album{get; set;} = "";
             public string title{get; set;} = "";
@@ -84,7 +85,7 @@ public class FinTubeActivityController : ControllerBase
 
                 // Save file with ytdlp as mp4 or mp3 depending on audioonly
                 String targetFilename;
-                String targetExtension = (data.audioonly ? @".mp3" : @".mp4");
+                String targetExtension = (data.preferfreeformat ? (data.audioonly ? @".mp3" : @".mp4") : (data.audioonly ? @".opus" : @".webm"));
                 
                 if(data.audioonly && hasTags && data.title.Length > 1) // Use title Tag for filename
                     targetFilename = System.IO.Path.Combine(data.targetfolder, $"{data.title}");
@@ -98,10 +99,16 @@ public class FinTubeActivityController : ControllerBase
                 status += $"Filename: {targetFilename}<br>";
 
                 String args;
-                if(data.audioonly)
-                    args = $"-x --audio-format mp3 -o \"{targetFilename}.%(ext)s\" {data.ytid}";
+                if (data.preferfreeformat)
+                    if(data.audioonly)
+                        args = $"-x --prefer-free-format -o \"{targetFilename}.%(ext)s\" {data.ytid}";
+                    else
+                        args = $"--prefer-free-format -o \"{targetFilename}-%(title)s.%(ext)s\" {data.ytid}";
                 else
-                    args = $"-f mp4 -o \"{targetFilename}-%(title)s.%(ext)s\" {data.ytid}";
+                    if(data.audioonly)
+                        args = $"-x --audio-format mp3 -o \"{targetFilename}.%(ext)s\" {data.ytid}";
+                    else
+                        args = $"-f mp4 -o \"{targetFilename}-%(title)s.%(ext)s\" {data.ytid}";
 
                 status += $"Exec: {config.exec_YTDL} {args}<br>";
 
