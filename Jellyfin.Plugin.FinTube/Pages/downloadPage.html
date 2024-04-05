@@ -16,9 +16,16 @@
 					</div>
 
 					<div class="selectContainer">
+						<label class="inputLabel" for="fintube-targetlibrary">Target library</label>
+						<select id="fintube-targetlibrary" class="emby-input" name="fintube-targetlibrary">
+						</select>
+						<div class="fieldDescription">Base library destination path to download file</div>
+					</div>
+
+					<div class="selectContainer">
 						<label class="inputLabel" for="fintube-targetfolder">Target Folder</label>
-						<input id="fintube-targetfolder" class="emby-input" name="fintube-targetfolder" value="/opt/media/" />
-						<div class="fieldDescription">Your Media file will be stored here assuming JellyFin has Write Permissions, this will also recursively create the folder(s) required</div>
+						<input id="fintube-targetfolder" class="emby-input" name="fintube-targetfolder" />
+						<div class="fieldDescription">Your Media file will be stored here assuming JellyFin has Write Permissions, this will also recursively create the folder(s) required<br />Relative path from target library (optional)</div>
 					</div>
 
 					<div class="checkboxContainer checkboxContainer-withDescription">
@@ -154,6 +161,7 @@
 
 							let payload = {
 								"ytid": 				parseYT(getfintubeValue("ytid")),
+								"targetlibrary":		getfintubeValue("targetlibrary"),
 								"targetfolder": 		getfintubeValue("targetfolder"),
 								"videoresolution":		getfintubeValue("videoresolution"),
 								"audioonly": 			document.getElementById("fintube-audioonly").checked,
@@ -173,6 +181,28 @@
 							document.getElementById('fintube-result').innerHTML = message;
 						});
 					});
+
+					window.ApiClient.getLibraries = function() {
+						const url = window.ApiClient.getUrl("fintube/libraries");
+						return this.ajax({
+							type: "GET",
+							url: url,
+							dataType: "json",
+							contentType: 'application/json'
+						});
+					};
+
+					(function() {
+						window.ApiClient.getLibraries().then(function(result) {
+							let librariesHtml = ""
+							for (let library of result.data) {
+								for (let location of library) {
+									librariesHtml += '<option value="' + location + '">' + location + '</option>'
+								}
+							}
+							document.getElementById('fintube-targetlibrary').innerHTML = librariesHtml;
+						});
+					})();
 				</script>
 			</div>
         </div>
